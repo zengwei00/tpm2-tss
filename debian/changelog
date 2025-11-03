@@ -1,11 +1,85 @@
-tpm2-tss (4.0.1-3deepin1) unstable; urgency=low
+tpm2-tss (4.1.3-1.2) unstable; urgency=medium
 
-  * esys: add SM4 algorithm support
-    - Reference: https://github.com/tpm2-software/tpm2-tss/pull/2502
-  * add ecc encrypt/decrypt support
-  * add support for udev to create tcm devices
+  * Non-maintainer upload.
+  * Switch from outdated libfti to libftdi1 (Closes: #1072637)
 
- -- chench <chench@hygon.cn>  Tue, 20 Aug 2024 21:02:02 +0800
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 26 Oct 2024 12:25:25 +0200
+
+tpm2-tss (4.1.3-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Backport patches to fix FTBFS (Closes: #1070720)
+
+ -- Luca Boccassi <bluca@debian.org>  Thu, 10 Oct 2024 01:46:57 +0100
+
+tpm2-tss (4.1.3-1) unstable; urgency=low
+
+  * New upstream version 4.1.3
+    - Update debian/libtss2-tcti-cmd0t64.symbols
+
+ -- Ying-Chun Liu (PaulLiu) <paulliu@debian.org>  Fri, 31 May 2024 06:38:56 +0800
+
+tpm2-tss (4.1.0-1) unstable; urgency=low
+
+  * New upstream version 4.1.0
+    - Fixed CVE-2024-29040 (Closes: #1070140)
+  * Refresh debian/patches/0001_disable_fapi_io_test.patch
+  * Remove debian/patches/0003-test-unit-tcti-*.patch: already upstreamed.
+  * Remove debian/patches/0004-tss2-tcti-tcti-libtpms-*.patch: already
+    upstreamed.
+  * Remove debian/patches/fix-tcti-spi-helper-big-endian.patch: already
+    upstreamed.
+  * Update debian/patches/disable-tests-on-big-endian.patch
+  * Remove debian/patches/skip-tests-which-fail-on-32-bit.patch: already
+    upstreamed
+  * Add libtss2-tcti-i2c-helper0, libtss2-tcti-spi-ltt2go0,
+    libtss2-tcti-spidev0
+  * Update symbols file
+
+ -- Ying-Chun Liu (PaulLiu) <paulliu@debian.org>  Tue, 07 May 2024 19:19:45 +0800
+
+tpm2-tss (4.0.1-7.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * debian/patches: Apply upstream patch to skip tests which fail on 32-bit
+    with _FILE_BITS=64 (Closes: #1067418)
+
+ -- Sebastian Ramacher <sramacher@debian.org>  Thu, 11 Apr 2024 23:02:54 +0200
+
+tpm2-tss (4.0.1-7.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Rename libraries for 64-bit time_t transition.  Closes: #1062992
+
+ -- Benjamin Drung <bdrung@debian.org>  Thu, 29 Feb 2024 18:28:02 +0000
+
+tpm2-tss (4.0.1-7) unstable; urgency=low
+
+  [ Jeremy Bícha ]
+  * Add debian/salsa-ci.yml
+
+  [ Ying-Chun Liu (PaulLiu) ]
+  * debian/control: libtss2-mu-4.0.1-0 conflicts libtss2-mu0 (Closes: #1061438)
+
+ -- Ying-Chun Liu (PaulLiu) <paulliu@debian.org>  Thu, 25 Jan 2024 21:48:43 +0800
+
+tpm2-tss (4.0.1-6) unstable; urgency=low
+
+  * debian/control: add tpm-udev to Build-Depends.
+
+ -- Ying-Chun Liu (PaulLiu) <paulliu@debian.org>  Tue, 23 Jan 2024 17:38:32 +0800
+
+tpm2-tss (4.0.1-5) unstable; urgency=low
+
+  * Upload 4.0.1-4 to unstable. (Closes: #1051284)
+
+ -- Ying-Chun Liu (PaulLiu) <paulliu@debian.org>  Tue, 23 Jan 2024 01:17:51 +0800
+
+tpm2-tss (4.0.1-4) experimental; urgency=low
+
+  * ABI broken by the upstream thus we rename the package to reflect this.
+
+ -- Ying-Chun Liu (PaulLiu) <paulliu@debian.org>  Sun, 26 Nov 2023 13:40:26 +0800
 
 tpm2-tss (4.0.1-3) unstable; urgency=low
 

@@ -1,0 +1,933 @@
+Author: Juergen Repp <juergen_repp@web.de>
+Description: ESYS/FAPI: Fix order of calloc parameters.
+Origin:upstream,commit:8d19bd17ae5c770653d396dffab9a2cf1984a96d)
+--- a/src/tss2-esys/api/Esys_AC_GetCapability.c
++++ b/src/tss2-esys/api/Esys_AC_GetCapability.c
+@@ -252,7 +252,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (capabilityData != NULL) {
+-        *capabilityData = calloc(sizeof(TPML_AC_CAPABILITIES), 1);
++        *capabilityData = calloc(1, sizeof(TPML_AC_CAPABILITIES));
+         if (*capabilityData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_AC_Send.c
++++ b/src/tss2-esys/api/Esys_AC_Send.c
+@@ -261,7 +261,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (acDataOut != NULL) {
+-        *acDataOut = calloc(sizeof(TPMS_AC_OUTPUT), 1);
++        *acDataOut = calloc(1, sizeof(TPMS_AC_OUTPUT));
+         if (*acDataOut == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_ActivateCredential.c
++++ b/src/tss2-esys/api/Esys_ActivateCredential.c
+@@ -281,7 +281,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (certInfo != NULL) {
+-        *certInfo = calloc(sizeof(TPM2B_DIGEST), 1);
++        *certInfo = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*certInfo == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_Certify.c
++++ b/src/tss2-esys/api/Esys_Certify.c
+@@ -285,13 +285,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (certifyInfo != NULL) {
+-        *certifyInfo = calloc(sizeof(TPM2B_ATTEST), 1);
++        *certifyInfo = calloc(1, sizeof(TPM2B_ATTEST));
+         if (*certifyInfo == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_CertifyCreation.c
++++ b/src/tss2-esys/api/Esys_CertifyCreation.c
+@@ -295,13 +295,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (certifyInfo != NULL) {
+-        *certifyInfo = calloc(sizeof(TPM2B_ATTEST), 1);
++        *certifyInfo = calloc(1, sizeof(TPM2B_ATTEST));
+         if (*certifyInfo == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_CertifyX509.c
++++ b/src/tss2-esys/api/Esys_CertifyX509.c
+@@ -293,19 +293,19 @@
+ 
+     /* Allocate memory for response parameters */
+     if (addedToCertificate != NULL) {
+-        *addedToCertificate = calloc(sizeof(TPM2B_MAX_BUFFER), 1);
++        *addedToCertificate = calloc(1, sizeof(TPM2B_MAX_BUFFER));
+         if (*addedToCertificate == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (tbsDigest != NULL) {
+-        *tbsDigest = calloc(sizeof(TPM2B_DIGEST), 1);
++        *tbsDigest = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*tbsDigest == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+ 		}
+     }
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_Commit.c
++++ b/src/tss2-esys/api/Esys_Commit.c
+@@ -286,19 +286,19 @@
+ 
+     /* Allocate memory for response parameters */
+     if (K != NULL) {
+-        *K = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *K = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*K == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (L != NULL) {
+-        *L = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *L = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*L == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+     if (E != NULL) {
+-        *E = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *E = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*E == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_ContextSave.c
++++ b/src/tss2-esys/api/Esys_ContextSave.c
+@@ -208,7 +208,7 @@
+     esysContext->state = _ESYS_STATE_INTERNALERROR;
+ 
+     /* Allocate memory for response parameters */
+-    lcontext = calloc(sizeof(TPMS_CONTEXT), 1);
++    lcontext = calloc(1, sizeof(TPMS_CONTEXT));
+     if (lcontext == NULL) {
+         return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+     }
+--- a/src/tss2-esys/api/Esys_Create.c
++++ b/src/tss2-esys/api/Esys_Create.c
+@@ -335,31 +335,31 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outPrivate != NULL) {
+-        *outPrivate = calloc(sizeof(TPM2B_PRIVATE), 1);
++        *outPrivate = calloc(1, sizeof(TPM2B_PRIVATE));
+         if (*outPrivate == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (outPublic != NULL) {
+-        *outPublic = calloc(sizeof(TPM2B_PUBLIC), 1);
++        *outPublic = calloc(1, sizeof(TPM2B_PUBLIC));
+         if (*outPublic == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+     if (creationData != NULL) {
+-        *creationData = calloc(sizeof(TPM2B_CREATION_DATA), 1);
++        *creationData = calloc(1, sizeof(TPM2B_CREATION_DATA));
+         if (*creationData == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+     if (creationHash != NULL) {
+-        *creationHash = calloc(sizeof(TPM2B_DIGEST), 1);
++        *creationHash = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*creationHash == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+     if (creationTicket != NULL) {
+-        *creationTicket = calloc(sizeof(TPMT_TK_CREATION), 1);
++        *creationTicket = calloc(1, sizeof(TPMT_TK_CREATION));
+         if (*creationTicket == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_CreateLoaded.c
++++ b/src/tss2-esys/api/Esys_CreateLoaded.c
+@@ -325,12 +325,12 @@
+         return r;
+ 
+     if (outPrivate != NULL) {
+-        *outPrivate = calloc(sizeof(TPM2B_PRIVATE), 1);
++        *outPrivate = calloc(1, sizeof(TPM2B_PRIVATE));
+         if (*outPrivate == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+-    loutPublic = calloc(sizeof(TPM2B_PUBLIC), 1);
++    loutPublic = calloc(1, sizeof(TPM2B_PUBLIC));
+     if (loutPublic == NULL) {
+         goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+     }
+--- a/src/tss2-esys/api/Esys_CreatePrimary.c
++++ b/src/tss2-esys/api/Esys_CreatePrimary.c
+@@ -344,24 +344,24 @@
+     if (r != TSS2_RC_SUCCESS)
+         return r;
+ 
+-    loutPublic = calloc(sizeof(TPM2B_PUBLIC), 1);
++    loutPublic = calloc(1, sizeof(TPM2B_PUBLIC));
+     if (loutPublic == NULL) {
+         goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+     }
+     if (creationData != NULL) {
+-        *creationData = calloc(sizeof(TPM2B_CREATION_DATA), 1);
++        *creationData = calloc(1, sizeof(TPM2B_CREATION_DATA));
+         if (*creationData == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+     if (creationHash != NULL) {
+-        *creationHash = calloc(sizeof(TPM2B_DIGEST), 1);
++        *creationHash = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*creationHash == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+     if (creationTicket != NULL) {
+-        *creationTicket = calloc(sizeof(TPMT_TK_CREATION), 1);
++        *creationTicket = calloc(1, sizeof(TPMT_TK_CREATION));
+         if (*creationTicket == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_Duplicate.c
++++ b/src/tss2-esys/api/Esys_Duplicate.c
+@@ -302,19 +302,19 @@
+ 
+     /* Allocate memory for response parameters */
+     if (encryptionKeyOut != NULL) {
+-        *encryptionKeyOut = calloc(sizeof(TPM2B_DATA), 1);
++        *encryptionKeyOut = calloc(1, sizeof(TPM2B_DATA));
+         if (*encryptionKeyOut == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (duplicate != NULL) {
+-        *duplicate = calloc(sizeof(TPM2B_PRIVATE), 1);
++        *duplicate = calloc(1, sizeof(TPM2B_PRIVATE));
+         if (*duplicate == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+     if (outSymSeed != NULL) {
+-        *outSymSeed = calloc(sizeof(TPM2B_ENCRYPTED_SECRET), 1);
++        *outSymSeed = calloc(1, sizeof(TPM2B_ENCRYPTED_SECRET));
+         if (*outSymSeed == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_ECC_Parameters.c
++++ b/src/tss2-esys/api/Esys_ECC_Parameters.c
+@@ -243,7 +243,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (parameters != NULL) {
+-        *parameters = calloc(sizeof(TPMS_ALGORITHM_DETAIL_ECC), 1);
++        *parameters = calloc(1, sizeof(TPMS_ALGORITHM_DETAIL_ECC));
+         if (*parameters == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_ECDH_KeyGen.c
++++ b/src/tss2-esys/api/Esys_ECDH_KeyGen.c
+@@ -256,13 +256,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (zPoint != NULL) {
+-        *zPoint = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *zPoint = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*zPoint == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (pubPoint != NULL) {
+-        *pubPoint = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *pubPoint = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*pubPoint == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_ECDH_ZGen.c
++++ b/src/tss2-esys/api/Esys_ECDH_ZGen.c
+@@ -255,7 +255,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outPoint != NULL) {
+-        *outPoint = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *outPoint = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*outPoint == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_EC_Ephemeral.c
++++ b/src/tss2-esys/api/Esys_EC_Ephemeral.c
+@@ -241,7 +241,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (Q != NULL) {
+-        *Q = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *Q = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*Q == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_EncryptDecrypt.c
++++ b/src/tss2-esys/api/Esys_EncryptDecrypt.c
+@@ -282,13 +282,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outData != NULL) {
+-        *outData = calloc(sizeof(TPM2B_MAX_BUFFER), 1);
++        *outData = calloc(1, sizeof(TPM2B_MAX_BUFFER));
+         if (*outData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (ivOut != NULL) {
+-        *ivOut = calloc(sizeof(TPM2B_IV), 1);
++        *ivOut = calloc(1, sizeof(TPM2B_IV));
+         if (*ivOut == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_EncryptDecrypt2.c
++++ b/src/tss2-esys/api/Esys_EncryptDecrypt2.c
+@@ -276,13 +276,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outData != NULL) {
+-        *outData = calloc(sizeof(TPM2B_MAX_BUFFER), 1);
++        *outData = calloc(1, sizeof(TPM2B_MAX_BUFFER));
+         if (*outData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (ivOut != NULL) {
+-        *ivOut = calloc(sizeof(TPM2B_IV), 1);
++        *ivOut = calloc(1, sizeof(TPM2B_IV));
+         if (*ivOut == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_EventSequenceComplete.c
++++ b/src/tss2-esys/api/Esys_EventSequenceComplete.c
+@@ -277,7 +277,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (results != NULL) {
+-        *results = calloc(sizeof(TPML_DIGEST_VALUES), 1);
++        *results = calloc(1, sizeof(TPML_DIGEST_VALUES));
+         if (*results == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_FieldUpgradeData.c
++++ b/src/tss2-esys/api/Esys_FieldUpgradeData.c
+@@ -243,13 +243,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (nextDigest != NULL) {
+-        *nextDigest = calloc(sizeof(TPMT_HA), 1);
++        *nextDigest = calloc(1, sizeof(TPMT_HA));
+         if (*nextDigest == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (firstDigest != NULL) {
+-        *firstDigest = calloc(sizeof(TPMT_HA), 1);
++        *firstDigest = calloc(1, sizeof(TPMT_HA));
+         if (*firstDigest == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_FirmwareRead.c
++++ b/src/tss2-esys/api/Esys_FirmwareRead.c
+@@ -239,7 +239,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (fuData != NULL) {
+-        *fuData = calloc(sizeof(TPM2B_MAX_BUFFER), 1);
++        *fuData = calloc(1, sizeof(TPM2B_MAX_BUFFER));
+         if (*fuData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_GetCapability.c
++++ b/src/tss2-esys/api/Esys_GetCapability.c
+@@ -261,7 +261,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (capabilityData != NULL) {
+-        *capabilityData = calloc(sizeof(TPMS_CAPABILITY_DATA), 1);
++        *capabilityData = calloc(1, sizeof(TPMS_CAPABILITY_DATA));
+         if (*capabilityData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_GetCommandAuditDigest.c
++++ b/src/tss2-esys/api/Esys_GetCommandAuditDigest.c
+@@ -283,13 +283,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (auditInfo != NULL) {
+-        *auditInfo = calloc(sizeof(TPM2B_ATTEST), 1);
++        *auditInfo = calloc(1, sizeof(TPM2B_ATTEST));
+         if (*auditInfo == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_GetRandom.c
++++ b/src/tss2-esys/api/Esys_GetRandom.c
+@@ -237,7 +237,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (randomBytes != NULL) {
+-        *randomBytes = calloc(sizeof(TPM2B_DIGEST), 1);
++        *randomBytes = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*randomBytes == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_GetSessionAuditDigest.c
++++ b/src/tss2-esys/api/Esys_GetSessionAuditDigest.c
+@@ -297,13 +297,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (auditInfo != NULL) {
+-        *auditInfo = calloc(sizeof(TPM2B_ATTEST), 1);
++        *auditInfo = calloc(1, sizeof(TPM2B_ATTEST));
+         if (*auditInfo == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_GetTestResult.c
++++ b/src/tss2-esys/api/Esys_GetTestResult.c
+@@ -236,7 +236,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outData != NULL) {
+-        *outData = calloc(sizeof(TPM2B_MAX_BUFFER), 1);
++        *outData = calloc(1, sizeof(TPM2B_MAX_BUFFER));
+         if (*outData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_GetTime.c
++++ b/src/tss2-esys/api/Esys_GetTime.c
+@@ -281,13 +281,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (timeInfo != NULL) {
+-        *timeInfo = calloc(sizeof(TPM2B_ATTEST), 1);
++        *timeInfo = calloc(1, sizeof(TPM2B_ATTEST));
+         if (*timeInfo == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_HMAC.c
++++ b/src/tss2-esys/api/Esys_HMAC.c
+@@ -260,7 +260,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outHMAC != NULL) {
+-        *outHMAC = calloc(sizeof(TPM2B_DIGEST), 1);
++        *outHMAC = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*outHMAC == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_Hash.c
++++ b/src/tss2-esys/api/Esys_Hash.c
+@@ -260,13 +260,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outHash != NULL) {
+-        *outHash = calloc(sizeof(TPM2B_DIGEST), 1);
++        *outHash = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*outHash == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (validation != NULL) {
+-        *validation = calloc(sizeof(TPMT_TK_HASHCHECK), 1);
++        *validation = calloc(1, sizeof(TPMT_TK_HASHCHECK));
+         if (*validation == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_Import.c
++++ b/src/tss2-esys/api/Esys_Import.c
+@@ -283,7 +283,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outPrivate != NULL) {
+-        *outPrivate = calloc(sizeof(TPM2B_PRIVATE), 1);
++        *outPrivate = calloc(1, sizeof(TPM2B_PRIVATE));
+         if (*outPrivate == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_IncrementalSelfTest.c
++++ b/src/tss2-esys/api/Esys_IncrementalSelfTest.c
+@@ -243,7 +243,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (toDoList != NULL) {
+-        *toDoList = calloc(sizeof(TPML_ALG), 1);
++        *toDoList = calloc(1, sizeof(TPML_ALG));
+         if (*toDoList == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_MAC.c
++++ b/src/tss2-esys/api/Esys_MAC.c
+@@ -262,7 +262,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outMAC != NULL) {
+-        *outMAC = calloc(sizeof(TPM2B_DIGEST), 1);
++        *outMAC = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*outMAC == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_MakeCredential.c
++++ b/src/tss2-esys/api/Esys_MakeCredential.c
+@@ -264,13 +264,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (credentialBlob != NULL) {
+-        *credentialBlob = calloc(sizeof(TPM2B_ID_OBJECT), 1);
++        *credentialBlob = calloc(1, sizeof(TPM2B_ID_OBJECT));
+         if (*credentialBlob == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (secret != NULL) {
+-        *secret = calloc(sizeof(TPM2B_ENCRYPTED_SECRET), 1);
++        *secret = calloc(1, sizeof(TPM2B_ENCRYPTED_SECRET));
+         if (*secret == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_NV_Certify.c
++++ b/src/tss2-esys/api/Esys_NV_Certify.c
+@@ -307,13 +307,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (certifyInfo != NULL) {
+-        *certifyInfo = calloc(sizeof(TPM2B_ATTEST), 1);
++        *certifyInfo = calloc(1, sizeof(TPM2B_ATTEST));
+         if (*certifyInfo == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_NV_Read.c
++++ b/src/tss2-esys/api/Esys_NV_Read.c
+@@ -275,7 +275,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (data != NULL) {
+-        *data = calloc(sizeof(TPM2B_MAX_NV_BUFFER), 1);
++        *data = calloc(1, sizeof(TPM2B_MAX_NV_BUFFER));
+         if (*data == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_NV_ReadPublic.c
++++ b/src/tss2-esys/api/Esys_NV_ReadPublic.c
+@@ -266,11 +266,11 @@
+     esysContext->state = _ESYS_STATE_INTERNALERROR;
+ 
+     /* Allocate memory for response parameters */
+-    lnvPublic = calloc(sizeof(TPM2B_NV_PUBLIC), 1);
++    lnvPublic = calloc(1, sizeof(TPM2B_NV_PUBLIC));
+     if (lnvPublic == NULL) {
+         return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+     }
+-    lnvName = calloc(sizeof(TPM2B_NAME), 1);
++    lnvName = calloc(1, sizeof(TPM2B_NAME));
+     if (lnvName == NULL) {
+         goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+     }
+--- a/src/tss2-esys/api/Esys_ObjectChangeAuth.c
++++ b/src/tss2-esys/api/Esys_ObjectChangeAuth.c
+@@ -284,7 +284,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outPrivate != NULL) {
+-        *outPrivate = calloc(sizeof(TPM2B_PRIVATE), 1);
++        *outPrivate = calloc(1, sizeof(TPM2B_PRIVATE));
+         if (*outPrivate == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_PCR_Event.c
++++ b/src/tss2-esys/api/Esys_PCR_Event.c
+@@ -259,7 +259,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (digests != NULL) {
+-        *digests = calloc(sizeof(TPML_DIGEST_VALUES), 1);
++        *digests = calloc(1, sizeof(TPML_DIGEST_VALUES));
+         if (*digests == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_PCR_Read.c
++++ b/src/tss2-esys/api/Esys_PCR_Read.c
+@@ -258,13 +258,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (pcrSelectionOut != NULL) {
+-        *pcrSelectionOut = calloc(sizeof(TPML_PCR_SELECTION), 1);
++        *pcrSelectionOut = calloc(1, sizeof(TPML_PCR_SELECTION));
+         if (*pcrSelectionOut == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (pcrValues != NULL) {
+-        *pcrValues = calloc(sizeof(TPML_DIGEST), 1);
++        *pcrValues = calloc(1, sizeof(TPML_DIGEST));
+         if (*pcrValues == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_PolicyGetDigest.c
++++ b/src/tss2-esys/api/Esys_PolicyGetDigest.c
+@@ -253,7 +253,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (policyDigest != NULL) {
+-        *policyDigest = calloc(sizeof(TPM2B_DIGEST), 1);
++        *policyDigest = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*policyDigest == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_PolicySecret.c
++++ b/src/tss2-esys/api/Esys_PolicySecret.c
+@@ -297,13 +297,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (timeout != NULL) {
+-        *timeout = calloc(sizeof(TPM2B_TIMEOUT), 1);
++        *timeout = calloc(1, sizeof(TPM2B_TIMEOUT));
+         if (*timeout == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (policyTicket != NULL) {
+-        *policyTicket = calloc(sizeof(TPMT_TK_AUTH), 1);
++        *policyTicket = calloc(1, sizeof(TPMT_TK_AUTH));
+         if (*policyTicket == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_PolicySigned.c
++++ b/src/tss2-esys/api/Esys_PolicySigned.c
+@@ -297,13 +297,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (timeout != NULL) {
+-        *timeout = calloc(sizeof(TPM2B_TIMEOUT), 1);
++        *timeout = calloc(1, sizeof(TPM2B_TIMEOUT));
+         if (*timeout == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (policyTicket != NULL) {
+-        *policyTicket = calloc(sizeof(TPMT_TK_AUTH), 1);
++        *policyTicket = calloc(1, sizeof(TPMT_TK_AUTH));
+         if (*policyTicket == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_Quote.c
++++ b/src/tss2-esys/api/Esys_Quote.c
+@@ -271,13 +271,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (quoted != NULL) {
+-        *quoted = calloc(sizeof(TPM2B_ATTEST), 1);
++        *quoted = calloc(1, sizeof(TPM2B_ATTEST));
+         if (*quoted == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_RSA_Decrypt.c
++++ b/src/tss2-esys/api/Esys_RSA_Decrypt.c
+@@ -265,7 +265,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (message != NULL) {
+-        *message = calloc(sizeof(TPM2B_PUBLIC_KEY_RSA), 1);
++        *message = calloc(1, sizeof(TPM2B_PUBLIC_KEY_RSA));
+         if (*message == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_RSA_Encrypt.c
++++ b/src/tss2-esys/api/Esys_RSA_Encrypt.c
+@@ -262,7 +262,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outData != NULL) {
+-        *outData = calloc(sizeof(TPM2B_PUBLIC_KEY_RSA), 1);
++        *outData = calloc(1, sizeof(TPM2B_PUBLIC_KEY_RSA));
+         if (*outData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_ReadClock.c
++++ b/src/tss2-esys/api/Esys_ReadClock.c
+@@ -238,7 +238,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (currentTime != NULL) {
+-        *currentTime = calloc(sizeof(TPMS_TIME_INFO), 1);
++        *currentTime = calloc(1, sizeof(TPMS_TIME_INFO));
+         if (*currentTime == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_ReadPublic.c
++++ b/src/tss2-esys/api/Esys_ReadPublic.c
+@@ -268,19 +268,19 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outPublic != NULL) {
+-        *outPublic = calloc(sizeof(TPM2B_PUBLIC), 1);
++        *outPublic = calloc(1, sizeof(TPM2B_PUBLIC));
+         if (*outPublic == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (name != NULL) {
+-        *name = calloc(sizeof(TPM2B_NAME), 1);
++        *name = calloc(1, sizeof(TPM2B_NAME));
+         if (*name == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+     }
+     if (qualifiedName != NULL) {
+-        *qualifiedName = calloc(sizeof(TPM2B_NAME), 1);
++        *qualifiedName = calloc(1, sizeof(TPM2B_NAME));
+         if (*qualifiedName == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_Rewrap.c
++++ b/src/tss2-esys/api/Esys_Rewrap.c
+@@ -285,13 +285,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outDuplicate != NULL) {
+-        *outDuplicate = calloc(sizeof(TPM2B_PRIVATE), 1);
++        *outDuplicate = calloc(1, sizeof(TPM2B_PRIVATE));
+         if (*outDuplicate == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (outSymSeed != NULL) {
+-        *outSymSeed = calloc(sizeof(TPM2B_ENCRYPTED_SECRET), 1);
++        *outSymSeed = calloc(1, sizeof(TPM2B_ENCRYPTED_SECRET));
+         if (*outSymSeed == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_SequenceComplete.c
++++ b/src/tss2-esys/api/Esys_SequenceComplete.c
+@@ -287,13 +287,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (result != NULL) {
+-        *result = calloc(sizeof(TPM2B_DIGEST), 1);
++        *result = calloc(1, sizeof(TPM2B_DIGEST));
+         if (*result == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (validation != NULL) {
+-        *validation = calloc(sizeof(TPMT_TK_HASHCHECK), 1);
++        *validation = calloc(1, sizeof(TPMT_TK_HASHCHECK));
+         if (*validation == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-esys/api/Esys_Sign.c
++++ b/src/tss2-esys/api/Esys_Sign.c
+@@ -271,7 +271,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (signature != NULL) {
+-        *signature = calloc(sizeof(TPMT_SIGNATURE), 1);
++        *signature = calloc(1, sizeof(TPMT_SIGNATURE));
+         if (*signature == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_Unseal.c
++++ b/src/tss2-esys/api/Esys_Unseal.c
+@@ -255,7 +255,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outData != NULL) {
+-        *outData = calloc(sizeof(TPM2B_SENSITIVE_DATA), 1);
++        *outData = calloc(1, sizeof(TPM2B_SENSITIVE_DATA));
+         if (*outData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_Vendor_TCG_Test.c
++++ b/src/tss2-esys/api/Esys_Vendor_TCG_Test.c
+@@ -231,7 +231,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outputData != NULL) {
+-        *outputData = calloc(sizeof(TPM2B_DATA), 1);
++        *outputData = calloc(1, sizeof(TPM2B_DATA));
+         if (*outputData == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_VerifySignature.c
++++ b/src/tss2-esys/api/Esys_VerifySignature.c
+@@ -262,7 +262,7 @@
+ 
+     /* Allocate memory for response parameters */
+     if (validation != NULL) {
+-        *validation = calloc(sizeof(TPMT_TK_VERIFIED), 1);
++        *validation = calloc(1, sizeof(TPMT_TK_VERIFIED));
+         if (*validation == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+--- a/src/tss2-esys/api/Esys_ZGen_2Phase.c
++++ b/src/tss2-esys/api/Esys_ZGen_2Phase.c
+@@ -278,13 +278,13 @@
+ 
+     /* Allocate memory for response parameters */
+     if (outZ1 != NULL) {
+-        *outZ1 = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *outZ1 = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*outZ1 == NULL) {
+             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
+         }
+     }
+     if (outZ2 != NULL) {
+-        *outZ2 = calloc(sizeof(TPM2B_ECC_POINT), 1);
++        *outZ2 = calloc(1, sizeof(TPM2B_ECC_POINT));
+         if (*outZ2 == NULL) {
+             goto_error(r, TSS2_ESYS_RC_MEMORY, "Out of memory", error_cleanup);
+         }
+--- a/src/tss2-fapi/fapi_util.c
++++ b/src/tss2-fapi/fapi_util.c
+@@ -2322,7 +2322,7 @@
+         context->nv_cmd.data_idx = 0;
+ 
+         /* Use calloc to ensure zero padding for write buffer. */
+-        context->nv_cmd.write_data = calloc(size, 1);
++        context->nv_cmd.write_data = calloc(1, size);
+         goto_if_null2(context->nv_cmd.write_data, "Out of memory.", r,
+                       TSS2_FAPI_RC_MEMORY,
+                       error_cleanup);
+@@ -2762,7 +2762,7 @@
+     switch (context->get_random_state) {
+     statecase(context->get_random_state, GET_RANDOM_INIT);
+         context->get_random.numBytes = numBytes;
+-        context->get_random.data = calloc(context->get_random.numBytes, 1);
++        context->get_random.data = calloc(1, context->get_random.numBytes);
+         context->get_random.idx = 0;
+         return_if_null(context->get_random.data, "FAPI out of memory.",
+                        TSS2_FAPI_RC_MEMORY);
+--- a/src/tss2-fapi/ifapi_io.c
++++ b/src/tss2-fapi/ifapi_io.c
+@@ -581,7 +581,7 @@
+                 closedir(dir);
+             return_if_error(r, "Out of memory");
+ 
+-            NODE_OBJECT_T *file_obj = calloc(sizeof(NODE_OBJECT_T), 1);
++            NODE_OBJECT_T *file_obj = calloc(1, sizeof(NODE_OBJECT_T));
+             if (!file_obj) {
+                 LOG_ERROR("Out of memory.");
+                 SAFE_FREE(path);
+--- a/src/tss2-fapi/ifapi_policy_callbacks.c
++++ b/src/tss2-fapi/ifapi_policy_callbacks.c
+@@ -1132,7 +1132,7 @@
+             }
+         }
+         /* Extend linked list.*/
+-        policy_object = calloc(sizeof(struct POLICY_LIST), 1);
++        policy_object = calloc(1, sizeof(struct POLICY_LIST));
+         return_if_null(policy_object, "Out of memory.", TSS2_FAPI_RC_MEMORY);
+ 
+         strdup_check(policy_object->path, context->fsearch.current_path, r, cleanup);
+--- a/src/tss2-fapi/ifapi_policyutil_execute.c
++++ b/src/tss2-fapi/ifapi_policyutil_execute.c
+@@ -42,12 +42,12 @@
+     IFAPI_POLICY_EXEC_CTX *pol_exec_ctx;
+     IFAPI_POLICY_EXEC_CB_CTX *pol_exec_cb_ctx;
+ 
+-    *current_policy = calloc(sizeof(IFAPI_POLICYUTIL_STACK), 1);
++    *current_policy = calloc(1, sizeof(IFAPI_POLICYUTIL_STACK));
+     if (!*current_policy) {
+         return_error(TSS2_FAPI_RC_MEMORY, "Out of memory");
+     }
+ 
+-    pol_exec_ctx = calloc(sizeof(IFAPI_POLICY_EXEC_CTX), 1);
++    pol_exec_ctx = calloc(1, sizeof(IFAPI_POLICY_EXEC_CTX));
+     if (!pol_exec_ctx) {
+         SAFE_FREE(*current_policy);
+         return_error(TSS2_FAPI_RC_MEMORY, "Out of memory");
+@@ -73,7 +73,7 @@
+     pol_exec_ctx->callbacks.cbaction = ifapi_policy_action;
+     pol_exec_ctx->callbacks.cbaction_userdata = context;
+ 
+-    pol_exec_cb_ctx = calloc(sizeof(IFAPI_POLICY_EXEC_CB_CTX), 1);
++    pol_exec_cb_ctx = calloc(1, sizeof(IFAPI_POLICY_EXEC_CB_CTX));
+     if (!pol_exec_cb_ctx) {
+         SAFE_FREE(*current_policy);
+         return_error(TSS2_FAPI_RC_MEMORY, "Out of memory");
+--- a/test/integration/main-fapi.c
++++ b/test/integration/main-fapi.c
+@@ -1182,7 +1182,7 @@
+         goto error_cleanup;
+     }
+ #endif
+-    *fingerprint = calloc(TPM2_SHA256_DIGEST_SIZE * 2 + 1, 1);
++    *fingerprint = calloc(1, TPM2_SHA256_DIGEST_SIZE * 2 + 1);
+     if (!(*fingerprint)) {
+         LOG_ERROR("Failed to allocate fingerprint.");
+         goto error_cleanup;
+@@ -1402,7 +1402,7 @@
+     int ret;
+ 
+     size = sizeof(TSS2_TEST_FAPI_CONTEXT);
+-    *test_ctx = calloc(size, 1);
++    *test_ctx = calloc(1, size);
+     if (test_ctx == NULL) {
+         LOG_ERROR("Failed to allocate 0x%zx bytes for the test context", size);
+         goto error;

@@ -1,9 +1,6 @@
 0001_disable_fapi_io_test.patch
 0002-fix-version.patch
-0003-test-unit-tcti-libtpms-fix-test-failed-at-32-bit-pla.patch
-0004-tss2-tcti-tcti-libtpms-fix-test-failure-on-big-endia.patch
-fix-tcti-spi-helper-big-endian.patch
 disable-tests-on-big-endian.patch
-esys-add-SM4-algorithm-support.patch
-add-ecc-encrypt-decrypt-support.patch
-add-support-for-udev-to-create-tcm-de.patch
+0004-ESYS-FAPI-Fix-order-of-calloc-parameters.patch
+0005-FAPI-Fix-wrong-format-directive-in-ifap_set_auth.patch
+0006-test-skip-tcti-spidev-on-32bit-architectures-with-64.patch

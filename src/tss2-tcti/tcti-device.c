@@ -52,7 +52,7 @@
 #include "tss2_mu.h"
 #include "tcti-common.h"
 #include "tcti-device.h"
-#include "util/io.h"
+#include "util-io/io.h"
 #include "util/aux_util.h"
 #define LOGMODULE tcti
 #include "util/log.h"
@@ -63,6 +63,7 @@ static char *default_conf[] = {
 #else
     "/dev/tpmrm0",
     "/dev/tpm0",
+    "/dev/tcm0",
 #endif /* __VX_WORKS__ */
 };
 
@@ -198,6 +199,9 @@ tcti_device_receive (
                            tcti_dev->fd, errno, strerror (errno));
                     return TSS2_TCTI_RC_IO_ERROR;
                 }
+            } else {
+                LOG_ERROR ("Header could not be received");
+                return TSS2_TCTI_RC_GENERAL_FAILURE;
             }
             LOG_DEBUG("Partial read - received header");
             rc = Tss2_MU_UINT32_Unmarshal(header, TPM_HEADER_SIZE,
@@ -526,7 +530,7 @@ Tss2_Tcti_Device_Init (
     return TSS2_RC_SUCCESS;
 }
 
-const TSS2_TCTI_INFO tss2_tcti_info = {
+const TSS2_TCTI_INFO tss2_tcti_device_info = {
     .version = TCTI_VERSION,
     .name = "tcti-device",
     .description = "TCTI module for communication with Linux kernel interface.",
@@ -538,5 +542,5 @@ const TSS2_TCTI_INFO tss2_tcti_info = {
 const TSS2_TCTI_INFO*
 Tss2_Tcti_Info (void)
 {
-    return &tss2_tcti_info;
+    return &tss2_tcti_device_info;
 }

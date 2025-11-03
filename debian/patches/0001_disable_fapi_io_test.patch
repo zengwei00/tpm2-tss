@@ -4,13 +4,13 @@ Description: Temporarily disable fapi-io tests
 Forwarded: not-needed
 Bug: https://github.com/tpm2-software/tpm2-tss/issues/2135
 Author: Ying-Chun Liu (PaulLiu) <paulliu@debian.org>
-Index: tpm2-tss-3.2.0/test/unit/fapi-io.c
+Index: tpm2-tss/test/unit/fapi-io.c
 ===================================================================
---- tpm2-tss-3.2.0.orig/test/unit/fapi-io.c
-+++ tpm2-tss-3.2.0/test/unit/fapi-io.c
-@@ -363,10 +363,6 @@ int
- main(int argc, char *argv[])
- {
+--- tpm2-tss.orig/test/unit/fapi-io.c
++++ tpm2-tss/test/unit/fapi-io.c
+@@ -372,10 +372,6 @@ main(int argc, char *argv[])
+ #endif
+ 
      const struct CMUnitTest tests[] = {
 -        cmocka_unit_test(check_io_read_async),
 -        cmocka_unit_test(check_io_read_finish),
