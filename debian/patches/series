@@ -7,3 +7,4 @@ disable-tests-on-big-endian.patch
 esys-add-SM4-algorithm-support.patch
 add-ecc-encrypt-decrypt-support.patch
 add-support-for-udev-to-create-tcm-de.patch
+CVE-2024-29040.patch
